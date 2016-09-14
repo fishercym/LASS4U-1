@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">LASS4U</string>
+
+    <string name="title_activity_dashboard">LASS4U</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="action_api_key">掃描金鑰</string>
+
+    <string name="iot_host">iot.cht.com.tw</string>
+
+    <string name="ok">確定</string>
+    <string name="cancel">取消</string>
+    <string name="incorrect_qr_code">QR Code 格式錯誤</string>
+    <string name="illegal_key">錯誤的認證資訊</string>
+
+</resources>

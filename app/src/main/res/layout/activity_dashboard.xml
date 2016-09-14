@@ -1,0 +1,310 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape"
+    tools:context="farm.rododo.lass4u.DashboardActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false">
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_overlay"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|top"
+            android:id="@+id/fullscreen_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/mimage"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/lass"
+                    android:background="@android:color/black"
+                    android:padding="@dimen/image_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/linearLayout">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="溫度："
+                            android:id="@+id/textView2"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH1"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/linearLayout2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="濕度："
+                            android:id="@+id/textView3"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH2"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout2"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/linearLayout3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PM1.0："
+                            android:id="@+id/textView5"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH5"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout3"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/linearLayout4">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PM2.5："
+                            android:id="@+id/textView7"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH3"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout4"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/linearLayout5">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PM10："
+                            android:id="@+id/textView9"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH6"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout5"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/linearLayout6">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="二氧化碳："
+                            android:id="@+id/textView11"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH4"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout6"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/linearLayout7">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="一氧化碳："
+                            android:id="@+id/textView13"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH8"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout7"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="總揮發性有機物："
+                            android:id="@+id/textView15"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH7"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

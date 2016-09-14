@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <!-- shape with circle-top corner -->
+        <shape>
+            <!-- the shape background color -->
+            <solid android:color="#FFB3D9FF" />
+            <corners
+                android:bottomLeftRadius="10dp"
+                android:bottomRightRadius="10dp"
+                android:topLeftRadius="10dp"
+                android:topRightRadius="10dp" />
+            <!--<stroke-->
+                <!--android:width="10dp"-->
+                <!--android:color="#FF9FF781" />-->
+            <gradient
+                android:angle="45"
+                android:endColor="#5ba7f4"
+                android:startColor="#FFFFFF" />
+
+        </shape>
+    </item>
+</layer-list>
