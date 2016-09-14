@@ -2,8 +2,6 @@
     <string name="app_name">LASS4U</string>
 
     <string name="title_activity_dashboard">LASS4U</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="action_api_key">掃描金鑰</string>
 

@@ -1,32 +1,26 @@
 package farm.rododo.lass4u;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.InputType;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cht.android.KeepScreenOn;
 import com.cht.android.Log;
 import com.cht.android.StringById;
+import com.cht.android.ViewById;
 import com.cht.android.ViewUtils;
 import com.cht.android.ViewVisitor;
 import com.cht.iot.android.AndroidUtils;
-import com.cht.iot.persistence.entity.api.IDevice;
 import com.cht.iot.persistence.entity.api.ISensor;
 import com.cht.iot.persistence.entity.data.Rawdata;
 import com.cht.iot.service.api.OpenMqttClient;
@@ -35,7 +29,6 @@ import com.cht.iot.util.JsonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import java.util.Collections;
@@ -44,35 +37,20 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 @KeepScreenOn
 public class DashboardActivity extends AppCompatActivity {
     @Log
     Logger LOG; // assign by ViewUtils.bind()
 
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static final boolean AUTO_HIDE = true;
+//    private static final boolean AUTO_HIDE = true;
+//    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+    static final int UI_ANIMATION_DELAY = 300;
 
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+    final Handler mHideHandler = new Handler();
 
-    /**
-     * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
-     */
-    private static final int UI_ANIMATION_DELAY = 300;
-    private final Handler mHideHandler = new Handler();
-    private View mContentView;
-    private final Runnable mHidePart2Runnable = new Runnable() {
+    @ViewById(R.id.fullscreen_content)
+    View mContentView;
+    final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
         public void run() {
@@ -89,8 +67,10 @@ public class DashboardActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    private View mControlsView;
-    private final Runnable mShowPart2Runnable = new Runnable() {
+
+    @ViewById(R.id.fullscreen_content_controls)
+    View mControlsView;
+    final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
             // Delayed display of UI elements
@@ -101,27 +81,13 @@ public class DashboardActivity extends AppCompatActivity {
             mControlsView.setVisibility(View.VISIBLE);
         }
     };
-    private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
+    boolean mVisible;
+    final Runnable mHideRunnable = new Runnable() {
         @Override
         public void run() {
             hide();
         }
     };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-//    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-//        @Override
-//        public boolean onTouch(View view, MotionEvent motionEvent) {
-//            if (AUTO_HIDE) {
-//                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-//            }
-//            return false;
-//        }
-//    };
 
     @StringById(R.string.iot_host)
     String host;
@@ -148,8 +114,8 @@ public class DashboardActivity extends AppCompatActivity {
         ViewUtils.visit(this, new MemberViewVisitor());
 
         mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
+//        mControlsView = findViewById(R.id.fullscreen_content_controls);
+//        mContentView = findViewById(R.id.fullscreen_content);
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -158,11 +124,37 @@ public class DashboardActivity extends AppCompatActivity {
                 toggle();
             }
         });
+    }
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-//        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+    class MemberViewVisitor implements ViewVisitor {
+        final Resources resources;
+
+        public MemberViewVisitor() {
+            resources = getResources();
+        }
+
+        public String nameToSensorId(String name) {
+            if (name.startsWith("m")) {
+                return name.substring(1); // mCH1 -> CH1
+            }
+
+            return null;
+        }
+
+        @Override
+        public boolean visit(View view) {
+            String name = resources.getResourceEntryName(view.getId()); // View's name
+            String sensorId = nameToSensorId(name); // View Name -> SensorId
+            if (sensorId != null) {
+                SensorView sv = new SensorView(); // HINT - different SensorViews could have the same sensorId
+                sv.sensorId = sensorId;
+                sv.view = view;
+
+                sensorViews.put(sensorId, sv);
+            }
+
+            return true; // continue to visit
+        }
     }
 
     @Override
@@ -259,47 +251,35 @@ public class DashboardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // ======
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            String contents = result.getContents(); // DK0YZPG9B7779RG53C,816709561
+            if (contents != null) {
+                int i = contents.indexOf(',');
+                if (i > 0) {
+                    final String apiKey = contents.substring(0, i);
+                    final String deviceId = contents.substring(i + 1);
 
-//    protected void showTextInputDialog(String title, int type, String confirm, final OnTextInputListener listener) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle(title);
-//        final EditText input = new EditText(this);
-//        input.setInputType(type);
-//        builder.setView(input);
-//
-//        builder.setPositiveButton(confirm, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                final String text = input.getText().toString();
-//
-//                executor.execute(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        listener.onTextInput(text);
-//                    }
-//                });
-//            }
-//        });
-//
-//        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//            }
-//        });
-//
-//        builder.show();
-//    }
-//
-//    interface OnTextInputListener {
-//        void onTextInput(String text); // call by executor
-//    }
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            init(apiKey, deviceId);
+                        }
+                    });
+                } else {
+                    Toast.makeText(this, getString(R.string.incorrect_qr_code), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
 
     // ======
 
     protected void init(String apiKey, String deviceId) {
-        restful = new OpenRESTfulClient(host, 80, apiKey);
+        restful = new OpenRESTfulClient(host, 443, apiKey);
+        restful.enableTls(true);
 
         try {
             for (ISensor sensor : restful.getSensors(deviceId)) {
@@ -310,7 +290,7 @@ public class DashboardActivity extends AppCompatActivity {
                 mqtt.stop();
             }
 
-            mqtt = new OpenMqttClient(host, 1883, apiKey);
+            mqtt = new OpenMqttClient(host, 8883, apiKey, true);
             mqtt.setListener(new OpenMqttClient.ListenerAdapter() {
                 @Override
                 public void onRawdata(String topic, Rawdata rawdata) {
@@ -345,6 +325,8 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
+    // ======
+
     public void onRawdataChanged(final Rawdata rawdata) {
         LOG.info(JsonUtils.toJson(rawdata));
 
@@ -363,65 +345,6 @@ public class DashboardActivity extends AppCompatActivity {
                     }
                 });
             }
-        }
-    }
-
-    // ======
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            String contents = result.getContents(); // DK0YZPG9B7779RG53C,816709561
-            if (contents != null) {
-                int i = contents.indexOf(',');
-                if (i > 0) {
-                    final String apiKey = contents.substring(0, i);
-                    final String deviceId = contents.substring(i + 1);
-
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            init(apiKey, deviceId);
-                        }
-                    });
-                } else {
-                    Toast.makeText(this, getString(R.string.incorrect_qr_code), Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
-
-    // ======
-
-    class MemberViewVisitor implements ViewVisitor {
-        final Resources resources;
-
-        public MemberViewVisitor() {
-            resources = getResources();
-        }
-
-        public String nameToSensorId(String name) {
-            if (name.startsWith("m")) {
-                return name.substring(1); // mCH1 -> CH1
-            }
-
-            return null;
-        }
-
-        @Override
-        public boolean visit(View view) {
-            String name = resources.getResourceEntryName(view.getId()); // View's name
-            String sensorId = nameToSensorId(name); // View Name -> SensorId
-            if (sensorId != null) {
-                SensorView sv = new SensorView(); // HINT - different SensorViews could have the same sensorId
-                sv.sensorId = sensorId;
-                sv.view = view;
-
-                sensorViews.put(sensorId, sv);
-            }
-
-            return true; // continue to visit
         }
     }
 }
