@@ -42,8 +42,6 @@ public class DashboardActivity extends AppCompatActivity {
     @Log
     Logger LOG; // assign by ViewUtils.bind()
 
-//    private static final boolean AUTO_HIDE = true;
-//    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
     static final int UI_ANIMATION_DELAY = 300;
 
     final Handler mHideHandler = new Handler();
@@ -89,14 +87,14 @@ public class DashboardActivity extends AppCompatActivity {
         }
     };
 
+    // assign by ViewVisitor
+    Map<String, SensorView> sensorViews = Collections.synchronizedMap(new HashMap<String, SensorView>()); // sensorId -> SensorView
+
     @StringById(R.string.iot_host)
     String host;
 
     OpenRESTfulClient restful;
     OpenMqttClient mqtt;
-
-    // assign by ViewVisitor
-    Map<String, SensorView> sensorViews = Collections.synchronizedMap(new HashMap<String, SensorView>()); // sensorId -> SensorView
 
     ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
@@ -114,8 +112,6 @@ public class DashboardActivity extends AppCompatActivity {
         ViewUtils.visit(this, new MemberViewVisitor());
 
         mVisible = true;
-//        mControlsView = findViewById(R.id.fullscreen_content_controls);
-//        mContentView = findViewById(R.id.fullscreen_content);
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +162,7 @@ public class DashboardActivity extends AppCompatActivity {
         // are available.
         delayedHide(100);
 
+        // Build connection if you had the configurations saved.
         SharedPreferences preferences = getSharedPreferences();
         final String apiKey = preferences.getString("apiKey", null);
         final String deviceId = preferences.getString("deviceId", null);
