@@ -41,8 +41,8 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/mimage"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -60,21 +60,21 @@
             </RelativeLayout>
 
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1.2"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin">
+                android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_gravity="top"
-                    android:layout_marginTop="@dimen/activity_vertical_margin">
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:gravity="center"
+                    android:layout_gravity="center">
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -103,7 +103,7 @@
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linearLayout"
                         android:layout_alignParentLeft="true"
@@ -113,7 +113,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="濕度："
+                            android:text="相對濕度："
                             android:id="@+id/textView3"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:layout_marginLeft="@dimen/text_margin"
@@ -132,7 +132,7 @@
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linearLayout2"
                         android:layout_alignParentLeft="true"
@@ -152,7 +152,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="N/A"
-                            android:id="@+id/mCH5"
+                            android:id="@+id/mCH6"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:layout_marginLeft="@dimen/text_margin"
                             android:layout_marginTop="@dimen/text_margin"
@@ -161,7 +161,7 @@
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linearLayout3"
                         android:layout_alignParentLeft="true"
@@ -190,7 +190,7 @@
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linearLayout4"
                         android:layout_alignParentLeft="true"
@@ -210,35 +210,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="N/A"
-                            android:id="@+id/mCH6"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                            android:layout_marginLeft="@dimen/text_margin"
-                            android:layout_marginTop="@dimen/text_margin"
-                            android:textColor="@android:color/white" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/linearLayout5"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:id="@+id/linearLayout6">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="二氧化碳："
-                            android:id="@+id/textView11"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                            android:layout_marginLeft="@dimen/text_margin"
-                            android:layout_marginTop="@dimen/text_margin" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="N/A"
                             android:id="@+id/mCH4"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:layout_marginLeft="@dimen/text_margin"
@@ -248,7 +219,36 @@
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout5"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/linearLayout6">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="電池 ADC 讀數："
+                            android:id="@+id/textView11"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH5"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linearLayout6"
                         android:layout_alignParentLeft="true"
@@ -258,8 +258,37 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="一氧化碳："
+                            android:text="Above 0.3 μm："
                             android:id="@+id/textView13"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH7"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/linearLayout8"
+                        android:layout_below="@+id/linearLayout7"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Above 0.5 μm："
+                            android:id="@+id/textView"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:layout_marginLeft="@dimen/text_margin"
                             android:layout_marginTop="@dimen/text_margin" />
@@ -277,17 +306,18 @@
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/linearLayout7"
+                        android:id="@+id/linearLayout9"
+                        android:layout_below="@+id/linearLayout8"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="總揮發性有機物："
-                            android:id="@+id/textView15"
+                            android:text="Above 1.0 μm："
+                            android:id="@+id/textView6"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:layout_marginLeft="@dimen/text_margin"
                             android:layout_marginTop="@dimen/text_margin" />
@@ -296,12 +326,100 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="N/A"
-                            android:id="@+id/mCH7"
+                            android:id="@+id/mCH9"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:layout_marginLeft="@dimen/text_margin"
                             android:layout_marginTop="@dimen/text_margin"
                             android:textColor="@android:color/white" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/linearLayout10"
+                        android:layout_below="@+id/linearLayout9"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Above 2.5 μm："
+                            android:id="@+id/textView10"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH10"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/linearLayout11"
+                        android:layout_below="@+id/linearLayout10"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Above 5.0 μm："
+                            android:id="@+id/textView14"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH11"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/linearLayout12"
+                        android:layout_below="@+id/linearLayout11"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Above 10 μm："
+                            android:id="@+id/textView16"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="N/A"
+                            android:id="@+id/mCH12"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_marginTop="@dimen/text_margin"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
                 </RelativeLayout>
             </FrameLayout>
         </LinearLayout>

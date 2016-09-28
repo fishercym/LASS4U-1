@@ -106,20 +106,21 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_dashboard);
+//        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_rich_dashboard);
 
         ViewUtils.bind(this);
         ViewUtils.visit(this, new MemberViewVisitor());
 
         mVisible = true;
 
-        // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
+//        // Set up the user interaction to manually show or hide the system UI.
+//        mContentView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                toggle();
+//            }
+//        });
     }
 
     class MemberViewVisitor implements ViewVisitor {
@@ -130,7 +131,9 @@ public class DashboardActivity extends AppCompatActivity {
         }
 
         public String nameToSensorId(String name) {
-            if (name.startsWith("m")) {
+            System.out.println(name);
+
+            if (name.startsWith("mC")) {
                 return name.substring(1); // mCH1 -> CH1
             }
 
@@ -139,14 +142,18 @@ public class DashboardActivity extends AppCompatActivity {
 
         @Override
         public boolean visit(View view) {
-            String name = resources.getResourceEntryName(view.getId()); // View's name
-            String sensorId = nameToSensorId(name); // View Name -> SensorId
-            if (sensorId != null) {
-                SensorView sv = new SensorView(); // HINT - different SensorViews could have the same sensorId
-                sv.sensorId = sensorId;
-                sv.view = view;
+            try {
+                String name = resources.getResourceEntryName(view.getId()); // View's name
+                String sensorId = nameToSensorId(name); // View Name -> SensorId
+                if (sensorId != null) {
+                    SensorView sv = new SensorView(); // HINT - different SensorViews could have the same sensorId
+                    sv.sensorId = sensorId;
+                    sv.view = view;
 
-                sensorViews.put(sensorId, sv);
+                    sensorViews.put(sensorId, sv);
+                }
+            } catch (Resources.NotFoundException e) {
+                // skip
             }
 
             return true; // continue to visit
@@ -160,7 +167,7 @@ public class DashboardActivity extends AppCompatActivity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+//        delayedHide(100);
 
         // Build connection if you had the configurations saved.
         SharedPreferences preferences = getSharedPreferences();
@@ -243,6 +250,10 @@ public class DashboardActivity extends AppCompatActivity {
         if (id == R.id.action_api_key) {
             IntentIntegrator ii = new IntentIntegrator(this);
             ii.initiateScan();
+
+        } else if (id == R.id.action_report) {
+            Intent i = new Intent(this, ReportActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);

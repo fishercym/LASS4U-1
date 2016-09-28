@@ -82,11 +82,12 @@ public class ViewUtils {
         for (int i = 0;i < s;i++) {
             View v = vg.getChildAt(i);
 
+            if (!visitor.visit(v)) {
+                break;
+            }
+
             if (v instanceof ViewGroup) {
                 visit((ViewGroup) v, visitor);
-
-            } else if (!visitor.visit(v)) {
-                break;
             }
         }
     }
