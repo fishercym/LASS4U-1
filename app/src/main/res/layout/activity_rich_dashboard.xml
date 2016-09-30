@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/mCH2"
-                android:background="#FF8BF6FE"
+                android:background="#FF52A5A9"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:label="濕度"
@@ -84,7 +84,7 @@
             <farm.rododo.lass4u.GaugeView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/mCH3"
+                android:id="@+id/mCH4"
                 android:background="#7de97d"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
@@ -97,8 +97,9 @@
                 android:background="#e263be"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:label="一氧化碳"
-                app:unit="ppm"></farm.rododo.lass4u.GaugeView>
+                app:label="細懸浮微粒"
+                app:unit="ug/m³"
+                android:id="@+id/mCH3"></farm.rododo.lass4u.GaugeView>
 
         </LinearLayout>
     </LinearLayout>

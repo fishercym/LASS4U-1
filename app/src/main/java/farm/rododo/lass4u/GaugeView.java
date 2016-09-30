@@ -17,6 +17,8 @@ import static android.util.TypedValue.COMPLEX_UNIT_PX;
  */
 
 public class GaugeView extends RelativeLayout implements Displayer {
+    static final int DEFAULT_PADDING = 32;
+
     TextView value;
     TextView unit;
     TinyChart chart;
@@ -74,15 +76,13 @@ public class GaugeView extends RelativeLayout implements Displayer {
         TextPaint paint = name.getPaint();
         Paint.FontMetrics fm = paint.getFontMetrics();
 
-        float ww = w - 16;
+        float ww = w - DEFAULT_PADDING;
         float fw = paint.measureText(name.getText().toString());
         float rw = ww / fw;
 
-        float hh = (h - chart.getHeight()) / 2 - 16;
+        float hh = (h - chart.getHeight()) / 2 - DEFAULT_PADDING;
         float fh = fm.bottom - fm.top;
         float rh = hh / fh;
-
-        System.out.printf("rw %f, rh: %f\n", rw, rh);
 
         float r = Math.min(rw, rh);
 
@@ -97,12 +97,12 @@ public class GaugeView extends RelativeLayout implements Displayer {
         TextPaint upaint = unit.getPaint();
         float ufw = upaint.measureText(unit.getText().toString());
 
-        float ww = w - 16;
+        float ww = w - DEFAULT_PADDING;
         float fw = vfw + ufw;
         float rw = ww / fw;
 
-        float hh = (h - chart.getHeight()) / 2 - 16;
-        float fh = vfm.bottom - vfm.top;
+        float hh = (h - chart.getHeight()) / 2 - DEFAULT_PADDING;
+        float fh = vfm.bottom - vfm.top; // unit letter's height is lower, skip it
         float rh = hh / fh;
 
         float r = Math.min(rw, rh);
