@@ -27,7 +27,7 @@ public class TinyMeter extends View {
 
     Paint paint = new Paint();
 
-    float horizontalSidePadding = 4f;
+    float horizontalSidePadding = 0f;
 
     float barWidth = 24f;
     @ColorInt int barColor = Color.BLACK;
@@ -78,6 +78,9 @@ public class TinyMeter extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        if (w < 16) w = 16;
+        if (h < 16) h = 16;
+
         size = new Rect(0, 0, w, h);
 
         bitmap = Bitmap.createBitmap(size.width(), size.height(), Bitmap.Config.ARGB_8888);

@@ -1,4 +1,7 @@
 <resources>
+    <attr name="name" format="string" />
+    <attr name="unit" format="string" />
+    <attr name="degress" format="string" />
 
     <!-- Declare custom theme attributes that allow changing which styles are
          used for button bars depending on the API level.
@@ -10,8 +13,14 @@
     </declare-styleable>
 
     <declare-styleable name="GaugeView">
-        <attr name="label" format="string" />
-        <attr name="unit" format="string" />
+        <attr name="name"/>
+        <attr name="unit"/>
+    </declare-styleable>
+
+    <declare-styleable name="MeterView">
+        <attr name="name"/>
+        <attr name="unit"/>
+        <attr name="degress"/>
     </declare-styleable>
 
 </resources>

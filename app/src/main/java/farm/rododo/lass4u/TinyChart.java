@@ -80,11 +80,11 @@ public class TinyChart extends View {
 
     // ======
 
-    public void clear() {
+    public synchronized void clear() {
         values.clear();
     }
 
-    public void add(float value) {
+    public synchronized void add(float value) {
         values.add(value);
 
         sweap();
@@ -100,8 +100,8 @@ public class TinyChart extends View {
         sweap();
     }
 
-    protected void sweap() {
-        if (isInEditMode()) {
+    protected synchronized void sweap() {
+        if (values.isEmpty()) {
             return;
         }
 
@@ -115,11 +115,17 @@ public class TinyChart extends View {
         int w = MeasureSpec.getSize(widthMeasureSpec);
         if (w > 640) {
             w = 640;
+
+        } else if (w < 16) {
+            w = 16;
         }
 
         int h = MeasureSpec.getSize(heightMeasureSpec);
         if (h > 480) {
             h = 480;
+
+        } else if (h < 16) {
+            h = 16;
         }
 
         setMeasuredDimension(w, h);
@@ -127,11 +133,12 @@ public class TinyChart extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        if (w < 16) w = 16;
+        if (h < 16) h = 16;
+
         size = new Rect(0, 0, w, h);
 
         reconfigure();
-
-        System.out.printf("%d, %d", size.width(), size.height());
 
         bitmap = Bitmap.createBitmap(size.width(), size.height(), Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);

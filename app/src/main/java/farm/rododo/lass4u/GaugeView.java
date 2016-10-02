@@ -57,7 +57,7 @@ public class GaugeView extends RelativeLayout implements Displayer {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.GaugeView, 0, 0);
 
         try {
-            String s = a.getString(R.styleable.GaugeView_label);
+            String s = a.getString(R.styleable.GaugeView_name);
             if (s != null) {
                 name.setText(s);
             }
@@ -127,6 +127,6 @@ public class GaugeView extends RelativeLayout implements Displayer {
 
         resizeValue(w, h);
 
-        requestLayout();
+        value.requestLayout();
     }
 }

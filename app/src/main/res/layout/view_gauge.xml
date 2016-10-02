@@ -23,8 +23,8 @@
         android:layout_below="@+id/chart"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/chart"
-        android:layout_alignStart="@+id/chart" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <farm.rododo.lass4u.TinyChart
         android:id="@+id/chart"
@@ -34,10 +34,10 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="16dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="4dp" />
+        android:layout_marginRight="16dp" />
 
     <LinearLayout
         android:orientation="horizontal"
