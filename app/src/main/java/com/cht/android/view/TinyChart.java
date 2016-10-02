@@ -1,4 +1,4 @@
-package farm.rododo.lass4u;
+package com.cht.android.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

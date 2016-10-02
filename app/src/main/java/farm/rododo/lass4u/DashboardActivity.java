@@ -67,9 +67,7 @@ public class DashboardActivity extends AppCompatActivity {
         }
 
         public String nameToSensorId(String name) {
-            System.out.println(name);
-
-            if (name.startsWith("mC")) {
+            if (name.startsWith("mCH")) {
                 return name.substring(1); // mCH1 -> CH1
             }
 

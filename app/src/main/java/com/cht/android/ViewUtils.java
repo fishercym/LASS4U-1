@@ -17,10 +17,8 @@ import java.lang.reflect.Field;
 public class ViewUtils {
     static final Logger LOG = LoggerFactory.getLogger(ViewUtils.class);
 
-    public static final void bind(View view) {
+    protected static final void bind(View view, Class<?> clazz) {
         try {
-            Class<?> clazz = view.getClass();
-
             for (Field field : clazz.getDeclaredFields()) {
                 if (field.isAnnotationPresent(Log.class)) {
                     field.setAccessible(true);
@@ -34,9 +32,19 @@ public class ViewUtils {
                     field.set(view, view.findViewById(id));
                 }
             }
+
+            Class<?> parent = clazz.getSuperclass();
+            if (parent != View.class) {
+                bind(view, parent);
+            }
+
         } catch (Exception e) {
             throw new GreenException(e.getMessage(), e);
         }
+    }
+
+    public static final void bind(View view) {
+        bind(view, view.getClass());
     }
 
     public static final void bind(Activity activity) {

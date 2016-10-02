@@ -13,9 +13,9 @@ public class SensorView {
     View view;
 
     public void setValue(String value) {
-        if (view instanceof Displayer) {
-            Displayer displayer = (Displayer) view;
-            displayer.setValue(Float.parseFloat(value));
+        if (view instanceof Meter) {
+            Meter meter = (Meter) view;
+            meter.setValue(Float.parseFloat(value));
 
         } else if (view instanceof TextView) {
             TextView text = (TextView) view;
