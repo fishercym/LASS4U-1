@@ -44,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/chart">
+        android:layout_above="@+id/chart"
+        android:id="@+id/layout_value">
 
         <TextView
             android:text="00000"

@@ -52,7 +52,7 @@ public class GaugeView extends Meter {
 
     @Override
     public void setValue(float v) {
-        value.setText(String.format("%.2f", v));
+        value.setText(String.format("%.1f", v));
         chart.add(v);
 
         resizeValue();

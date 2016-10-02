@@ -76,7 +76,7 @@ public class MeterView extends Meter {
 
     @Override
     public void setValue(float v) {
-        value.setText(String.format("%.2f", v));
+        value.setText(String.format("%d", (int) v));
         chart.setValue(v);
 
         resizeValue();
