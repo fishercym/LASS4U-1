@@ -17,8 +17,8 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="8dp"
         android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="@+id/layout_meters"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
+        app:layout_constraintBottom_toTopOf="@+id/logo_cht"
+        android:layout_marginBottom="8dp" />
 
     <ImageView
         custom:srcCompat="@mipmap/qr_code"
@@ -131,9 +131,9 @@
         app:layout_constraintTop_toBottomOf="@+id/layout_pm10"
         app:layout_constraintRight_toRightOf="@+id/layout_pm10"
         app:layout_constraintLeft_toLeftOf="@+id/layout_pm10"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@android:color/holo_blue_dark"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <TextView
             android:text="CO:"
@@ -170,56 +170,13 @@
         android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_pm1"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/main_logo"
-        app:layout_constraintRight_toRightOf="@+id/main_logo"
-        app:layout_constraintLeft_toLeftOf="@+id/main_logo"
-        android:background="@android:color/holo_blue_dark"
-        android:padding="4dp">
-
-        <TextView
-            android:text="PM1.0:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView20"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:textSize="24sp" />
-
-        <TextView
-            android:text="0.00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mCH5"
-            android:layout_weight="1"
-            android:textSize="24sp"
-            android:gravity="right"
-            android:layout_marginLeft="16dp"
-            android:textColor="#FF303F9F" />
-
-        <TextView
-            android:text="ug/m³"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView21"
-            android:layout_weight="1"
-            android:layout_marginLeft="16dp"
-            android:textSize="24sp"
-            android:gravity="right"
-            android:layout_width="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:id="@+id/layout_tvoc"
         app:layout_constraintRight_toRightOf="@+id/layout_co"
         app:layout_constraintTop_toBottomOf="@+id/layout_co"
         app:layout_constraintLeft_toLeftOf="@+id/layout_co"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@android:color/holo_blue_dark"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <TextView
             android:text="tVOC:"
@@ -260,9 +217,9 @@
         app:layout_constraintTop_toBottomOf="@+id/layout_pm1"
         app:layout_constraintRight_toRightOf="@+id/layout_pm1"
         app:layout_constraintLeft_toLeftOf="@+id/layout_pm1"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@android:color/holo_blue_dark"
-        android:padding="4dp">
+        android:padding="2dp">
 
         <TextView
             android:text="PM10:"
@@ -288,6 +245,50 @@
             android:text="ug/m³"
             android:layout_height="wrap_content"
             android:id="@+id/textView19"
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:textSize="24sp"
+            android:gravity="right"
+            android:layout_width="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_pm1"
+        app:layout_constraintRight_toRightOf="@+id/main_logo"
+        app:layout_constraintLeft_toLeftOf="@+id/main_logo"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="2dp"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintTop_toTopOf="@+id/layout_meters"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:text="PM1.0:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView20"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textSize="24sp" />
+
+        <TextView
+            android:text="0.00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mCH5"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:gravity="right"
+            android:layout_marginLeft="16dp"
+            android:textColor="#FF303F9F" />
+
+        <TextView
+            android:text="ug/m³"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView21"
             android:layout_weight="1"
             android:layout_marginLeft="16dp"
             android:textSize="24sp"
