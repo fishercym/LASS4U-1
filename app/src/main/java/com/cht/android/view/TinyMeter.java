@@ -4,15 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -112,19 +115,38 @@ public class TinyMeter extends View {
         int w = size.width();
         int h = size.height();
 
-        Degree max = degrees.get(0); // first degree is the maximum one
+        int s = degrees.size();
+        Degree max = degrees.get(s - 1); // last degree is the maximum one
         float ratio = (w - horizontalSidePadding - horizontalSidePadding) / max.threshold;
 
         float left = horizontalSidePadding;
         float top = (h - degreeWidth) / 2.0f;
         float bottom = top + degreeWidth;
 
-        for (Degree degree : degrees) {
-            float right = horizontalSidePadding + (degree.threshold * ratio);
+        Iterator<Degree> it = degrees.iterator();
+        if (it.hasNext()) {
+            Degree degree = it.next();
+            do {
+                Degree next = null;
+                if (it.hasNext()) {
+                    next = it.next();
+                }
 
-            paint.setColor(degree.color);
-            canvas.drawRect(left, top, right, bottom, paint);
+                float right = horizontalSidePadding + (degree.threshold * ratio);
+
+                Paint paint = new Paint();
+                Shader shader = new LinearGradient(left, top, right, top, degree.color, (next != null)? next.color : Color.DKGRAY, Shader.TileMode.CLAMP);
+                paint.setShader(shader);
+
+                canvas.drawRect(left, top, right, bottom, paint);
+
+                left = right;
+                degree = next;
+
+            } while (degree != null);
         }
+
+        left = horizontalSidePadding;
 
         top = (h - barWidth) / 2.0f;
         bottom = top + barWidth;
@@ -145,7 +167,7 @@ public class TinyMeter extends View {
 
         @Override
         public int compareTo(Degree o) {
-            return ((o.threshold - threshold) > 0)? 1 : -1;
+            return ((threshold - o.threshold) > 0)? 1 : -1;
         }
     }
 }

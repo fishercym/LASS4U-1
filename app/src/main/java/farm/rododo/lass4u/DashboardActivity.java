@@ -123,7 +123,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     // ======
 
-    protected void onScan(View view) {
+    public void onScan(View view) {
         IntentIntegrator ii = new IntentIntegrator(this);
         ii.initiateScan();
     }

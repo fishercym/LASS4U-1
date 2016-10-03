@@ -20,7 +20,7 @@ import java.util.StringTokenizer;
  */
 
 public class MeterView extends Meter {
-    static final int[] COLORS = { Color.GRAY, Color.GREEN, Color.YELLOW, Color.RED };
+    static final int[] COLORS = { Color.GREEN, Color.YELLOW, Color.RED, Color.MAGENTA, Color.DKGRAY };
 
     @ViewById(R.id.chart)
     TinyMeter chart;
