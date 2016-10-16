@@ -132,10 +132,20 @@ public class TinyMeter extends View {
                     next = it.next();
                 }
 
-                float right = horizontalSidePadding + (degree.threshold * ratio);
+                int color;
+                
+                float right = horizontalSidePadding;
+                if (next != null) {
+                    right += ((degree.threshold + next.threshold) / 2) * ratio;
+                    color = next.color;
+
+                } else {
+                    right += (degree.threshold * ratio);
+                    color = Color.DKGRAY;
+                }
 
                 Paint paint = new Paint();
-                Shader shader = new LinearGradient(left, top, right, top, degree.color, (next != null)? next.color : Color.DKGRAY, Shader.TileMode.CLAMP);
+                Shader shader = new LinearGradient(left, top, right, top, degree.color, color, Shader.TileMode.CLAMP);
                 paint.setShader(shader);
 
                 canvas.drawRect(left, top, right, bottom, paint);
