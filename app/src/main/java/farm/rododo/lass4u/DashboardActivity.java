@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,8 +23,11 @@ import com.cht.iot.util.JsonUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +61,14 @@ public class DashboardActivity extends AppCompatActivity {
 
         ViewUtils.bind(this);
         ViewUtils.visit(this, new MemberViewVisitor());
+
+        ImageView iv = (ImageView) findViewById(R.id.qr_code);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onScan(v);
+            }
+        });
     }
 
     class MemberViewVisitor implements ViewVisitor {
@@ -124,8 +136,23 @@ public class DashboardActivity extends AppCompatActivity {
     // ======
 
     public void onScan(View view) {
-        IntentIntegrator ii = new IntentIntegrator(this);
-        ii.initiateScan();
+        try {
+            IntentIntegrator ii = new IntentIntegrator(this);
+            ii.initiateScan();
+
+        } catch (Throwable e) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            pw.flush();
+
+            String msg = sw.toString();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("zxing got error");
+            builder.setMessage(msg);
+            builder.show();
+        }
     }
 
     @Override

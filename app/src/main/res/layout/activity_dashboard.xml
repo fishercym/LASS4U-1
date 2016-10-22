@@ -25,7 +25,6 @@
         android:id="@+id/qr_code"
         android:layout_width="wrap_content"
         android:layout_height="96dp"
-        android:onClick="onScan"
         app:layout_constraintBottom_toBottomOf="@+id/logo_cht"
         app:layout_constraintTop_toTopOf="@+id/logo_cht"
         app:layout_constraintVertical_bias="1.0"
