@@ -155,6 +155,18 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
+    public void onVideo(View view) {
+        SharedPreferences preferences = getSharedPreferences();
+        String apiKey = preferences.getString("apiKey", null);
+        String deviceId = preferences.getString("deviceId", null);
+        if ((apiKey != null) && (deviceId != null)) {
+            Intent intent = new Intent(this, VideoActivity.class);
+            intent.putExtra("apiKey", apiKey);
+            intent.putExtra("deviceId", deviceId);
+            startActivity(intent);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);

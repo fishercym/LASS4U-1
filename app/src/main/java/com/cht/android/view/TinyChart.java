@@ -154,7 +154,7 @@ public class TinyChart extends View {
     }
 
     protected void drawBackground(Canvas canvas) {
-        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        canvas.drawColor(Color.TRANSPARENT);
     }
 
     protected void drawValues(Canvas canvas) {

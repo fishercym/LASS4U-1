@@ -3,14 +3,18 @@ package com.cht.iot.android;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.widget.ImageView;
 
 import com.cht.iot.persistence.entity.data.Rawdata;
 import com.cht.iot.service.api.OpenRESTfulClient;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 

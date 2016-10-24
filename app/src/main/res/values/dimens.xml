@@ -3,7 +3,13 @@
     <dimen name="activity_horizontal_margin">4dp</dimen>
     <dimen name="activity_vertical_margin">4dp</dimen>
 
+    <dimen name="inner_chart_height">32dp</dimen>
+
     <dimen name="text_margin">4dp</dimen>
     <dimen name="image_margin">32dp</dimen>
+
+    <dimen name="extra_text_size">18sp</dimen>
+
+    <dimen name="function_icon_size">48dp</dimen>
 
 </resources>
