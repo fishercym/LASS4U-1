@@ -8,4 +8,10 @@
         android:title="@string/action_api_key"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_report"
+        android:orderInCategory="20"
+        android:title="report"
+        app:showAsAction="always" />
+
 </menu>

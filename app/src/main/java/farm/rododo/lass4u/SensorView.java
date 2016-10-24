@@ -13,7 +13,11 @@ public class SensorView {
     View view;
 
     public void setValue(String value) {
-        if (view instanceof TextView) {
+        if (view instanceof Meter) {
+            Meter meter = (Meter) view;
+            meter.setValue(Float.parseFloat(value));
+
+        } else if (view instanceof TextView) {
             TextView text = (TextView) view;
             text.setText(String.format("%s %s", value, (unit != null)? unit : ""));
         }
