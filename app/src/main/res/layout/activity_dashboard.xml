@@ -104,7 +104,7 @@
                 android:background="#FF4A904A"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:name="二氧化碳 (CO²)"
+                app:name="二氧化碳 (CO2)"
                 app:unit="ppm"
                 app:degress="600,1000,1500,2000"></farm.rododo.lass4u.MeterView>
 
@@ -115,7 +115,7 @@
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:name="細懸浮微粒 (PM2.5)"
-                app:unit="ug/m³"
+                app:unit="µg/m³"
                 app:degress="15,35,65,105"
                 android:id="@+id/mCH3"></farm.rododo.lass4u.MeterView>
 
@@ -241,7 +241,7 @@
             android:textColor="#FF303F9F" />
 
         <TextView
-            android:text="ug/m³"
+            android:text="µg/m³"
             android:layout_height="wrap_content"
             android:id="@+id/textView19"
             android:layout_weight="1"
@@ -285,7 +285,7 @@
             android:textColor="#FF303F9F" />
 
         <TextView
-            android:text="ug/m³"
+            android:text="µg/m³"
             android:layout_height="wrap_content"
             android:id="@+id/textView21"
             android:layout_weight="1"
@@ -296,18 +296,16 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="@dimen/function_icon_size"
-        android:layout_height="@dimen/function_icon_size"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         custom:srcCompat="@mipmap/ic_videocam_black_48dp"
-        android:id="@+id/imageView"
-        android:layout_marginTop="8dp"
+        android:id="@+id/mImage"
         app:layout_constraintTop_toBottomOf="@+id/layout_tvoc"
         app:layout_constraintBottom_toTopOf="@+id/main_logo"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="@+id/layout_tvoc"
         app:layout_constraintLeft_toLeftOf="@+id/layout_tvoc"
-        android:onClick="onVideo" />
+        android:onClick="onVideo"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -81,6 +81,8 @@ public class DashboardActivity extends AppCompatActivity {
         public String nameToSensorId(String name) {
             if (name.startsWith("mCH")) {
                 return name.substring(1); // mCH1 -> CH1
+            } else if (name.startsWith("mImage")) {
+                return "image";
             }
 
             return null;
