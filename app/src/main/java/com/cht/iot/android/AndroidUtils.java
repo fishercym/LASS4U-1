@@ -42,12 +42,15 @@ public class AndroidUtils {
                         try {
                             InputStream is = client.getSnapshotBody(rawdata.getDeviceId(), sensorId, imageId); // read the snapshot
                             final Bitmap bmp = BitmapFactory.decodeStream(is);
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    view.setImageBitmap(bmp);
-                                }
-                            });
+                            if (bmp != null) {
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        view.setImageBitmap(bmp);
+                                        view.invalidate();
+                                    }
+                                });
+                            }
                         } catch (Exception e) {
                             LOG.error(e.getMessage(), e);
                         }

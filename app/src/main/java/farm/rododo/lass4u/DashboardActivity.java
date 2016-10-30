@@ -239,17 +239,20 @@ public class DashboardActivity extends AppCompatActivity {
         String sensorId = rawdata.getId();
         final SensorView sv = sensorViews.get(sensorId);
         if (sv != null) {
-            String value = rawdata.getValue()[0];
-            if (value.startsWith("snapshot://")) {
-                AndroidUtils.presentSnapshot(rawdata, restful, executor, this, (ImageView) sv.view);
+            String[] values = rawdata.getValue();
+            if (values.length > 0) {
+                String value = values[0];
+                if (value.startsWith("snapshot://")) {
+                    AndroidUtils.presentSnapshot(rawdata, restful, executor, this, (ImageView) sv.view);
 
-            } else {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        sv.setValue(rawdata.getValue()[0]);
-                    }
-                });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            sv.setValue(rawdata.getValue()[0]);
+                        }
+                    });
+                }
             }
         }
     }
