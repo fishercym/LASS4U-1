@@ -3,14 +3,18 @@ package com.cht.iot.android;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.widget.ImageView;
 
 import com.cht.iot.persistence.entity.data.Rawdata;
 import com.cht.iot.service.api.OpenRESTfulClient;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 
@@ -38,12 +42,15 @@ public class AndroidUtils {
                         try {
                             InputStream is = client.getSnapshotBody(rawdata.getDeviceId(), sensorId, imageId); // read the snapshot
                             final Bitmap bmp = BitmapFactory.decodeStream(is);
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    view.setImageBitmap(bmp);
-                                }
-                            });
+                            if (bmp != null) {
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        view.setImageBitmap(bmp);
+                                        view.invalidate();
+                                    }
+                                });
+                            }
                         } catch (Exception e) {
                             LOG.error(e.getMessage(), e);
                         }
