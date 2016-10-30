@@ -2,11 +2,15 @@ package farm.rododo.lass4u;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cht.android.App;
 import com.cht.android.Log;
 import com.cht.android.StringById;
 import com.cht.android.ViewById;
@@ -26,20 +30,13 @@ public class VideoActivity extends AppCompatActivity {
     @Log
     Logger LOG; // assign by ViewUtils.bind()
 
-    @StringById(R.string.iot_host)
-    String host;
+    @App
+    MainApplication application;
 
-    String apiKey;
-    String deviceId;
-    String sensorId = "image";
-
-    OpenRESTfulClient restful;
-    OpenMqttClient mqtt;
+    Handler handler;
 
     @ViewById(R.id.snapshot)
     ImageView snapshot;
-
-    ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,48 +45,31 @@ public class VideoActivity extends AppCompatActivity {
 
         ViewUtils.bind(this);
 
-        Intent intent = getIntent();
+        Bitmap bmp = application.getSnapshot();
+        AndroidUtils.presentSnapshot(bmp, this, snapshot);
 
-        apiKey = intent.getStringExtra("apiKey");
-        deviceId = intent.getStringExtra("deviceId");
-
-        restful = new OpenRESTfulClient(host, 443, apiKey);
-        restful.enableTls(true);
-
-        try {
-            if (mqtt != null) {
-                mqtt.stop();
+        // register a handler to receive the snapshot from DashboardActivity
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                onMessage(msg);
             }
-
-            mqtt = new OpenMqttClient(host, 8883, apiKey, true);
-            mqtt.setListener(new OpenMqttClient.ListenerAdapter() {
-                @Override
-                public void onRawdata(String topic, Rawdata rawdata) {
-                    onRawdataChanged(rawdata);
-                }
-            });
-
-            mqtt.subscribe(deviceId, sensorId);
-
-            mqtt.start();
-
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-
-            Toast.makeText(this, getString(R.string.illegal_key) + " - " + e.getClass().getSimpleName(), Toast.LENGTH_LONG).show();
-        }
+        };
+        application.addHandler(handler);
     }
 
     @Override
     protected void onDestroy() {
-        mqtt.stop();
+        application.removeHandler(handler);
 
         super.onDestroy();
     }
 
-    public void onRawdataChanged(final Rawdata rawdata) {
-        LOG.info(JsonUtils.toJson(rawdata));
+    protected void onMessage(Message message) {
+        if (message.what == MainApplication.WHAT_BITMAP) {
+            Bitmap bmp = (Bitmap) message.obj;
 
-        AndroidUtils.presentSnapshot(rawdata, restful, executor, this, snapshot);
+            AndroidUtils.presentSnapshot(bmp, this, snapshot);
+        }
     }
 }

@@ -57,5 +57,5 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.4.0'
 
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.android.support.constraint:constraint-layout:1.+'
 }
