@@ -27,12 +27,17 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -188,21 +193,41 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void onReport(View view) {
-//        SharedPreferences preferences = getSharedPreferences();
-//        final String deviceId = preferences.getString("deviceId", null);
-//        executor.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Rawdata[] rawdatas = restful.getRawdatas(deviceId, "CH3", "2016-10-30T00:00:00Z", null, 0);
-//
-//                    LOG.info(JsonUtils.toJson(rawdatas));
-//
-//                } catch (Exception e) {
-//                    LOG.error(e.getMessage(), e);
-//                }
-//            }
-//        });
+        SharedPreferences preferences = getSharedPreferences();
+        final String deviceId = preferences.getString("deviceId", null);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Date now = new Date();
+                    String start = Constants.UTC.format(DateUtils.truncate(now, Calendar.DAY_OF_MONTH)); // 2016-11-01T16:00:00.000Z
+                    String end = Constants.UTC.format(now);
+
+                    List<Rawdata> rawdatas = new ArrayList<>();
+                    while (end.compareTo(start) > 0) {
+                        Rawdata[] rs = restful.getRawdatas(deviceId, "CH3", start, end, 1);
+
+                        for (Rawdata rawdata : rs) {
+                            rawdatas.add(rawdata);
+
+                            start = rawdata.getTime();
+                        }
+
+                        if (rs.length <= 1) {
+                            break;
+                        }
+                    }
+
+                    application.put("rawdatas", rawdatas);
+
+                    Intent intent = new Intent(DashboardActivity.this, ReportActivity.class);
+                    startActivity(intent);
+
+                } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                }
+            }
+        });
     }
 
     // ======

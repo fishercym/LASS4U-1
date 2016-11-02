@@ -7,7 +7,9 @@ import android.os.Message;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rickwang on 2016/10/30.
@@ -20,6 +22,8 @@ public class MainApplication extends Application {
     List<Handler> handlers = Collections.synchronizedList(new ArrayList<Handler>());
 
     Bitmap snapshot;
+
+    Map<String, Object> cache = Collections.synchronizedMap(new HashMap<String, Object>());
 
     @Override
     public void onCreate() {
@@ -53,5 +57,13 @@ public class MainApplication extends Application {
 
     public void setSnapshot(Bitmap snapshot) {
         this.snapshot = snapshot;
+    }
+
+    public void put(String key, Object object) {
+        cache.put(key, object);
+    }
+
+    public <T> T get(String key) {
+        return (T) cache.get(key);
     }
 }
