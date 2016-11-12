@@ -9,6 +9,19 @@
     android:background="@drawable/shape">
 
     <ImageView
+        android:layout_width="0dp"
+        custom:srcCompat="@mipmap/ic_videocam_black_48dp"
+        android:id="@+id/mImage"
+        android:onClick="onVideo"
+        android:layout_height="0dp"
+        app:layout_constraintRight_toRightOf="@+id/main_logo"
+        app:layout_constraintLeft_toLeftOf="@+id/main_logo"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/layout_tvoc"
+        app:layout_constraintBottom_toTopOf="@+id/main_logo"
+        android:layout_marginBottom="8dp" />
+
+    <ImageView
         android:layout_height="wrap_content"
         app:srcCompat="@mipmap/lass"
         android:id="@+id/main_logo"
@@ -30,7 +43,8 @@
         app:layout_constraintVertical_bias="1.0"
         android:layout_marginEnd="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="8dp"
+        android:onClick="onScan" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -77,7 +91,8 @@
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 custom:name="溫度"
-                app:unit="℃"></farm.rododo.lass4u.GaugeView>
+                app:unit="℃"
+                android:onClick="onReport"></farm.rododo.lass4u.GaugeView>
 
             <farm.rododo.lass4u.GaugeView
                 android:layout_width="match_parent"
@@ -87,7 +102,8 @@
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:name="濕度"
-                app:unit="%"></farm.rododo.lass4u.GaugeView>
+                app:unit="%"
+                android:onClick="onReport"></farm.rododo.lass4u.GaugeView>
 
         </LinearLayout>
 
@@ -104,9 +120,10 @@
                 android:background="#FF4A904A"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:name="二氧化碳 (CO²)"
+                app:name="二氧化碳"
                 app:unit="ppm"
-                app:degress="600,1000,1500,2000"></farm.rododo.lass4u.MeterView>
+                app:degress="600,1000,1500,2000"
+                android:onClick="onReport"></farm.rododo.lass4u.MeterView>
 
             <farm.rododo.lass4u.MeterView
                 android:layout_width="match_parent"
@@ -114,10 +131,11 @@
                 android:background="#e263be"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:name="細懸浮微粒 (PM2.5)"
-                app:unit="ug/m³"
+                app:name="細懸浮微粒 PM2.5"
+                app:unit="µg/m³"
                 app:degress="15,35,65,105"
-                android:id="@+id/mCH3"></farm.rododo.lass4u.MeterView>
+                android:id="@+id/mCH3"
+                android:onClick="onReport"></farm.rododo.lass4u.MeterView>
 
         </LinearLayout>
     </LinearLayout>
@@ -126,56 +144,13 @@
         android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_co"
-        app:layout_constraintTop_toBottomOf="@+id/layout_pm10"
-        app:layout_constraintRight_toRightOf="@+id/layout_pm10"
-        app:layout_constraintLeft_toLeftOf="@+id/layout_pm10"
-        android:layout_marginTop="4dp"
-        android:background="@android:color/holo_blue_dark"
-        android:padding="2dp">
-
-        <TextView
-            android:text="CO:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView16"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:textSize="@dimen/extra_text_size" />
-
-        <TextView
-            android:text="0.00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mCH8"
-            android:layout_weight="1"
-            android:textSize="@dimen/extra_text_size"
-            android:gravity="right"
-            android:layout_marginLeft="16dp"
-            android:textColor="#FF303F9F" />
-
-        <TextView
-            android:text="ppm"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView17"
-            android:layout_weight="1"
-            android:layout_marginLeft="16dp"
-            android:textSize="@dimen/extra_text_size"
-            android:gravity="right"
-            android:layout_width="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:id="@+id/layout_tvoc"
-        app:layout_constraintRight_toRightOf="@+id/layout_co"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="2dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintTop_toBottomOf="@+id/layout_co"
         app:layout_constraintLeft_toLeftOf="@+id/layout_co"
-        android:layout_marginTop="4dp"
-        android:background="@android:color/holo_blue_dark"
-        android:padding="2dp">
+        app:layout_constraintRight_toRightOf="@+id/layout_co">
 
         <TextView
             android:text="tVOC:"
@@ -201,49 +176,6 @@
             android:text="ppm"
             android:layout_height="wrap_content"
             android:id="@+id/textView8"
-            android:layout_weight="1"
-            android:layout_marginLeft="16dp"
-            android:textSize="@dimen/extra_text_size"
-            android:gravity="right"
-            android:layout_width="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout_pm10"
-        app:layout_constraintTop_toBottomOf="@+id/layout_pm1"
-        app:layout_constraintRight_toRightOf="@+id/layout_pm1"
-        app:layout_constraintLeft_toLeftOf="@+id/layout_pm1"
-        android:layout_marginTop="4dp"
-        android:background="@android:color/holo_blue_dark"
-        android:padding="2dp">
-
-        <TextView
-            android:text="PM10:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView18"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:textSize="@dimen/extra_text_size" />
-
-        <TextView
-            android:text="0.00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mCH6"
-            android:layout_weight="1"
-            android:textSize="@dimen/extra_text_size"
-            android:gravity="right"
-            android:layout_marginLeft="16dp"
-            android:textColor="#FF303F9F" />
-
-        <TextView
-            android:text="ug/m³"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView19"
             android:layout_weight="1"
             android:layout_marginLeft="16dp"
             android:textSize="@dimen/extra_text_size"
@@ -285,7 +217,7 @@
             android:textColor="#FF303F9F" />
 
         <TextView
-            android:text="ug/m³"
+            android:text="µg/m³"
             android:layout_height="wrap_content"
             android:id="@+id/textView21"
             android:layout_weight="1"
@@ -295,19 +227,90 @@
             android:layout_width="wrap_content" />
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="@dimen/function_icon_size"
-        android:layout_height="@dimen/function_icon_size"
-        custom:srcCompat="@mipmap/ic_videocam_black_48dp"
-        android:id="@+id/imageView"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/layout_tvoc"
-        app:layout_constraintBottom_toTopOf="@+id/main_logo"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"
-        app:layout_constraintLeft_toLeftOf="@+id/layout_tvoc"
-        android:onClick="onVideo" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_co"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="2dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/layout_pm10"
+        app:layout_constraintLeft_toLeftOf="@+id/layout_pm10"
+        app:layout_constraintRight_toRightOf="@+id/layout_pm10">
+
+        <TextView
+            android:text="CO:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView16"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textSize="@dimen/extra_text_size" />
+
+        <TextView
+            android:text="0.00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mCH8"
+            android:layout_weight="1"
+            android:textSize="@dimen/extra_text_size"
+            android:gravity="right"
+            android:layout_marginLeft="16dp"
+            android:textColor="#FF303F9F" />
+
+        <TextView
+            android:text="ppm"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView17"
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:textSize="@dimen/extra_text_size"
+            android:gravity="right"
+            android:layout_width="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_pm10"
+        app:layout_constraintTop_toBottomOf="@+id/layout_pm1"
+        app:layout_constraintRight_toRightOf="@+id/layout_pm1"
+        app:layout_constraintLeft_toLeftOf="@+id/layout_pm1"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="2dp">
+
+        <TextView
+            android:text="PM10:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView18"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textSize="@dimen/extra_text_size" />
+
+        <TextView
+            android:text="0.00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mCH6"
+            android:layout_weight="1"
+            android:textSize="@dimen/extra_text_size"
+            android:gravity="right"
+            android:layout_marginLeft="16dp"
+            android:textColor="#FF303F9F" />
+
+        <TextView
+            android:text="µg/m³"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView19"
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:textSize="@dimen/extra_text_size"
+            android:gravity="right"
+            android:layout_width="wrap_content" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -27,7 +27,7 @@ public class AndroidUtils {
     static final String SNAPSHOT_PREFIX = "snapshot://";
     static final int SNAPSHOT_PREFIX_LENGTH = SNAPSHOT_PREFIX.length();
 
-    public static final void presentSnapshot(final Rawdata rawdata, final OpenRESTfulClient client, final ExecutorService executor, final Activity activity, final ImageView view) {
+    public static final void presentSnapshot(final Rawdata rawdata, final OpenRESTfulClient client, final ExecutorService executor, final Activity activity, final ImageView view, final OnSnapshotListener listener) {
         String[] value = rawdata.getValue();
         if ((value != null) && (value.length > 0)) {
             String sid = value[0];
@@ -42,12 +42,13 @@ public class AndroidUtils {
                         try {
                             InputStream is = client.getSnapshotBody(rawdata.getDeviceId(), sensorId, imageId); // read the snapshot
                             final Bitmap bmp = BitmapFactory.decodeStream(is);
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    view.setImageBitmap(bmp);
+                            if (bmp != null) { // The image could not be decoded!! Don't set NULL to ImageView.
+                                if (listener != null) {
+                                    listener.onSnapshot(bmp);
                                 }
-                            });
+
+                                presentSnapshot(bmp, activity, view);
+                            }
                         } catch (Exception e) {
                             LOG.error(e.getMessage(), e);
                         }
@@ -55,5 +56,21 @@ public class AndroidUtils {
                 });
             }
         }
+    }
+
+    public static final void presentSnapshot(final Bitmap bmp, final Activity activity, final ImageView view) {
+        if (bmp != null) { // The image could not be decoded!! Don't set NULL to ImageView.
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    view.setImageBitmap(bmp);
+                    view.invalidate();
+                }
+            });
+        }
+    }
+
+    public interface OnSnapshotListener {
+        void onSnapshot(Bitmap bmp);
     }
 }

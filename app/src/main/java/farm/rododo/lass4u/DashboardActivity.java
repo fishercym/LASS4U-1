@@ -3,13 +3,16 @@ package farm.rododo.lass4u;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cht.android.App;
 import com.cht.android.KeepScreenOn;
 import com.cht.android.Log;
 import com.cht.android.StringById;
@@ -24,20 +27,30 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 @KeepScreenOn
 public class DashboardActivity extends AppCompatActivity {
+    static final String CONFIGURATIONS = "configurations";
+
     @Log
     Logger LOG; // assign by ViewUtils.bind()
+
+    @App
+    MainApplication application;
 
     // assign by ViewVisitor
     Map<String, SensorView> sensorViews = Collections.synchronizedMap(new HashMap<String, SensorView>()); // sensorId -> SensorView
@@ -51,7 +64,7 @@ public class DashboardActivity extends AppCompatActivity {
     ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
     protected SharedPreferences getSharedPreferences() {
-        return getSharedPreferences("configurations", MODE_PRIVATE);
+        return getSharedPreferences(CONFIGURATIONS, MODE_PRIVATE);
     }
 
     @Override
@@ -61,14 +74,17 @@ public class DashboardActivity extends AppCompatActivity {
 
         ViewUtils.bind(this);
         ViewUtils.visit(this, new MemberViewVisitor());
+    }
 
-        ImageView iv = (ImageView) findViewById(R.id.qr_code);
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onScan(v);
-            }
-        });
+    protected String nameToSensorId(String name) {
+        if (name.startsWith("mCH")) {
+            return name.substring(1); // mCH1 -> CH1
+
+        } else if (name.equals("mImage")) { // special case - snapshot
+            return "image";
+        }
+
+        return null;
     }
 
     class MemberViewVisitor implements ViewVisitor {
@@ -76,14 +92,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         public MemberViewVisitor() {
             resources = getResources();
-        }
-
-        public String nameToSensorId(String name) {
-            if (name.startsWith("mCH")) {
-                return name.substring(1); // mCH1 -> CH1
-            }
-
-            return null;
         }
 
         @Override
@@ -155,40 +163,109 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    public void onVideo(View view) {
-        SharedPreferences preferences = getSharedPreferences();
-        String apiKey = preferences.getString("apiKey", null);
-        String deviceId = preferences.getString("deviceId", null);
-        if ((apiKey != null) && (deviceId != null)) {
-            Intent intent = new Intent(this, VideoActivity.class);
-            intent.putExtra("apiKey", apiKey);
-            intent.putExtra("deviceId", deviceId);
-            startActivity(intent);
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
-            String contents = result.getContents(); // DK0YZPG9B7779RG53C,816709561
+            final String contents = result.getContents(); // DK0YZPG9B7779RG53C,816709561
             if (contents != null) {
-                int i = contents.indexOf(',');
-                if (i > 0) {
-                    final String apiKey = contents.substring(0, i);
-                    final String deviceId = contents.substring(i + 1);
-
+                if (contents.startsWith("otpauth://")) { // to support RoDoDo authentication
                     executor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            init(apiKey, deviceId);
+                            try {
+                                RododoUtils.DeviceAuth da = RododoUtils.getDeviceAuth(contents); // get the device ID and API key
+
+                                init(da.key, da.id);
+
+                            } catch (Exception e) {
+                                Toast.makeText(DashboardActivity.this, getString(R.string.incorrect_qr_code) + " " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
                     });
                 } else {
-                    Toast.makeText(this, getString(R.string.incorrect_qr_code), Toast.LENGTH_LONG).show();
+                    int i = contents.indexOf(',');
+                    if (i > 0) {
+                        final String apiKey = contents.substring(0, i);
+                        final String deviceId = contents.substring(i + 1);
+
+                        executor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                init(apiKey, deviceId);
+                            }
+                        });
+                    } else {
+                        Toast.makeText(this, getString(R.string.incorrect_qr_code), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         }
+    }
+
+    public void onVideo(View view) {
+        Intent intent = new Intent(this, VideoActivity.class);
+        startActivity(intent);
+    }
+
+    public void onReport(View view) {
+        if (! (view instanceof Meter)) {
+            return;
+        }
+
+        Meter mv = (Meter) view;
+
+        final String label = mv.getName().getText().toString();
+        final String unit = mv.getUnit().getText().toString();
+
+        String name = getResources().getResourceEntryName(view.getId()); // View's name
+        final String sensorId = nameToSensorId(name); // View Name -> SensorId
+
+        SharedPreferences preferences = getSharedPreferences();
+        final String deviceId = preferences.getString("deviceId", null);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Date now = new Date();
+                    Date last = DateUtils.addDays(now, -1);
+//                    Date last = DateUtils.truncate(now, Calendar.DAY_OF_MONTH);
+                    String start = Constants.UTC.format(last);
+                    String end = Constants.UTC.format(now);
+
+                    List<Rawdata> rawdatas = new ArrayList<>();
+
+                    Rawdata first = new Rawdata();
+                    first.setTime(start);
+                    first.setValue(new String[] { "0" });
+                    rawdatas.add(first);
+
+                    while (end.compareTo(start) > 0) {
+                        Rawdata[] rs = restful.getRawdatas(deviceId, sensorId, start, end, 1);
+
+                        for (Rawdata rawdata : rs) {
+                            rawdatas.add(rawdata);
+
+                            start = rawdata.getTime();
+                        }
+
+                        if (rs.length <= 1) {
+                            break;
+                        }
+                    }
+
+                    application.put("rawdatas.label", label);
+                    application.put("rawdatas.unit", unit);
+                    application.put("rawdatas", rawdatas);
+
+                    Intent intent = new Intent(DashboardActivity.this, ReportActivity.class);
+                    startActivity(intent);
+
+                } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                }
+            }
+        });
     }
 
     // ======
@@ -237,18 +314,35 @@ public class DashboardActivity extends AppCompatActivity {
         String sensorId = rawdata.getId();
         final SensorView sv = sensorViews.get(sensorId);
         if (sv != null) {
-            String value = rawdata.getValue()[0];
-            if (value.startsWith("snapshot://")) {
-                AndroidUtils.presentSnapshot(rawdata, restful, executor, this, (ImageView) sv.view);
+            String[] values = rawdata.getValue();
+            if (values.length > 0) {
+                String value = values[0];
+                if (value.startsWith("snapshot://")) {
+                    AndroidUtils.presentSnapshot(rawdata, restful, executor, this, (ImageView) sv.view, new AndroidUtils.OnSnapshotListener() {
+                        @Override
+                        public void onSnapshot(Bitmap bmp) {
+                            updateSnapshot(bmp);
+                        }
+                    });
 
-            } else {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        sv.setValue(rawdata.getValue()[0]);
-                    }
-                });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            sv.setValue(rawdata.getValue()[0]);
+                        }
+                    });
+                }
             }
         }
+    }
+
+    protected void updateSnapshot(Bitmap bmp) {
+        application.setSnapshot(bmp);
+
+        Message msg = new Message();
+        msg.what = MainApplication.WHAT_BITMAP;
+        msg.obj = bmp;
+        application.broadcast(msg);
     }
 }
