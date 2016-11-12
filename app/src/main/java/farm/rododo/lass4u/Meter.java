@@ -31,6 +31,18 @@ public abstract class Meter extends RelativeLayout {
         init();
     }
 
+    public TextView getValue() {
+        return value;
+    }
+
+    public TextView getUnit() {
+        return unit;
+    }
+
+    public TextView getName() {
+        return name;
+    }
+
     public Meter(Context context, AttributeSet attrs) {
         super(context, attrs);
 

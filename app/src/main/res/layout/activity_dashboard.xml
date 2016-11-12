@@ -91,7 +91,8 @@
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 custom:name="溫度"
-                app:unit="℃"></farm.rododo.lass4u.GaugeView>
+                app:unit="℃"
+                android:onClick="onReport"></farm.rododo.lass4u.GaugeView>
 
             <farm.rododo.lass4u.GaugeView
                 android:layout_width="match_parent"
@@ -101,7 +102,8 @@
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:name="濕度"
-                app:unit="%"></farm.rododo.lass4u.GaugeView>
+                app:unit="%"
+                android:onClick="onReport"></farm.rododo.lass4u.GaugeView>
 
         </LinearLayout>
 
@@ -120,7 +122,8 @@
                 android:layout_margin="4dp"
                 app:name="二氧化碳"
                 app:unit="ppm"
-                app:degress="600,1000,1500,2000"></farm.rododo.lass4u.MeterView>
+                app:degress="600,1000,1500,2000"
+                android:onClick="onReport"></farm.rododo.lass4u.MeterView>
 
             <farm.rododo.lass4u.MeterView
                 android:layout_width="match_parent"
